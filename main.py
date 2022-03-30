@@ -1,7 +1,6 @@
 import argparse
 import os
 import ipaddress
-import multiprocessing
 from multiprocessing import Pool
 
 
