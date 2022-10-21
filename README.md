@@ -2,6 +2,7 @@
 
 How to execute:
 ```
+python -m pip install -r requirements.txt
 python main.py --p 192.168.0
 ```
 

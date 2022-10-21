@@ -1,7 +1,7 @@
 import argparse
-import os
 import ipaddress
 from multiprocessing import Pool
+from pythonping import ping
 
 
 parser = argparse.ArgumentParser("Host Finder")
@@ -13,9 +13,9 @@ parser.add_argument("--p",
 args = parser.parse_args()
 
 
-def ping(host):
-    response = os.system("ping -c 1 " + host)
-    if response == 0:
+def ping_host(host):
+    ping_result = ping(host, verbose=False, count=1)
+    if ping_result.packets_lost == 0:
         return True, host
     return False, host
 
@@ -35,11 +35,11 @@ if __name__ == "__main__":
             ip = ipaddress.ip_address(host)
             query_list.append(host)
         except:
-            print('Not valid IP : %s' % host)
+            #print('Not valid IP : %s' % host)
             continue
 
     with Pool(50) as p:
-        result = p.map(ping, query_list)
+        result = p.map(ping_host, query_list)
         for ok, host in result:
             if ok:
                 detected_host_list.append(host)
